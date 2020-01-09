@@ -5,13 +5,18 @@ import sys
 from keras import layers, optimizers, losses, metrics
 from keras.models import load_model
 from sklearn.metrics import mean_absolute_error, mean_squared_error
+if(sys.argv[1] == "-i"):
+    path = sys.argv[2]
+else:
+    print("Give input file \n")
+    quit()
 # Initializes the model
 model = load_model("./WindDenseNN.h5")
 model.summary()
 model.compile(optimizer=optimizers.RMSprop(
     0.01), loss=losses.CategoricalCrossentropy(), metrics=[metrics.CategoricalAccuracy()])
 # read data for prediction
-data = pd.read_csv('./nn_representations.csv')
+data = pd.read_csv(path)
 # save labels
 labels = data[data.columns[0]]
 # drop label(first column)
