@@ -14,7 +14,7 @@ else:
 model = load_model("./WindDenseNN.h5")
 model.summary()
 model.compile(optimizer=optimizers.RMSprop(
-    0.01), loss=losses.CategoricalCrossentropy(), metrics=[metrics.CategoricalAccuracy()])
+    0.01), loss="mse")
 # read data for prediction
 data = pd.read_csv(path)
 # save labels
@@ -25,6 +25,7 @@ input_data = data.drop(data.columns[0], axis=1)
 actual = pd.read_csv("./actual.csv")
 # drop label(first column)
 actual_data = actual.drop(data.columns[0], axis=1)
+print(input_data.shape)
 result = model.predict(input_data, batch_size=32)
 # calculate errors
 mae = mean_absolute_error(actual_data, result)
