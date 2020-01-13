@@ -29,7 +29,7 @@ print(input_data.shape)
 result = model.predict(input_data, batch_size=32)
 # calculate errors
 mae = mean_absolute_error(actual_data, result)
-mse = mean_absolute_error(actual_data, result)
+mse = mean_squared_error(actual_data, result)
 mape = mae*100
 # convert to data frames
 df = pd.DataFrame(result)
