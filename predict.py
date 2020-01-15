@@ -13,8 +13,8 @@ else:
 # Initializes the model
 model = load_model("./WindDenseNN.h5")
 model.summary()
-model.compile(optimizer=optimizers.RMSprop(
-    0.01), loss="mse")
+model.compile(optimizer=optimizers.Adam(
+    0.01), loss='mse',metrics=['mape'])
 # read data for prediction
 data = pd.read_csv(path)
 # save labels
@@ -22,15 +22,15 @@ labels = data[data.columns[0]]
 # drop label(first column)
 input_data = data.drop(data.columns[0], axis=1)
 # read actual data for error calculate
+print(model.metrics_names)
 actual = pd.read_csv("./actual.csv")
 # drop label(first column)
 actual_data = actual.drop(data.columns[0], axis=1)
-print(input_data.shape)
 result = model.predict(input_data, batch_size=32)
 # calculate errors
 mae = mean_absolute_error(actual_data, result)
 mse = mean_squared_error(actual_data, result)
-mape = mae*100
+mape=0
 # convert to data frames
 df = pd.DataFrame(result)
 df2 = pd.DataFrame(labels)
